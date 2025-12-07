@@ -1,0 +1,71 @@
+@font-face {
+	font-family: Suncream;
+	src: url(modals/Suncream.otf);
+}
+
+@font-face {
+	font-family: Lufga;
+	src: url(modals/lufga/LufgaRegular.ttf);
+}
+
+@font-face {
+	font-family: Lufga;
+	src: url(modals/lufga/LufgaBold.ttf);
+	font-weight: bold;
+}
+
+body {
+    background-image: url('me.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    font-family: Lufga;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 98vh;
+}
+
+.center {
+    text-align: center;
+}
+
+input[type="email"] {
+    width: 90%;
+    padding: 13px;
+    margin: 7px 0;
+    border: 2px solid black;
+    border-radius: 50px;
+    margin-top: -15px;
+	font-family: Lufga;
+}
+
+input[type="password"] {
+    width: 90%;
+    padding: 13px;
+    margin: 7px 0;
+    border: 2px solid black;
+    border-radius: 50px;
+	font-family: Lufga;
+}
+
+.container {
+    text-align: center;
+}
+
+button {
+    width: 40%;
+    padding: 10px;
+    background: #00bf63;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    border: 2px solid black;
+    border-radius: 50px;
+    cursor: pointer;
+    margin-top: 5px;
+}
+ 
+button:hover {
+    background: #218838;
+}

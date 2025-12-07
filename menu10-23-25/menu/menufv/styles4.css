@@ -1,0 +1,551 @@
+@font-face {
+	font-family: Suncream;
+	src: url(modals/Suncream.otf);
+}
+
+@font-face {
+	font-family: Lufga;
+	src: url(modals/lufga/LufgaRegular.ttf);
+}
+
+@font-face {
+	font-family: Lufga;
+	src: url(modals/lufga/LufgaBold.ttf);
+	font-weight: bold;
+}
+
+body {
+  font-family: Lufga;
+  margin: 0;
+  padding: 0;
+  background-image: url('bgblue.png');
+  background-size: cover;
+  background-position: center;
+  color: #000000;
+}
+
+header {
+	display: flex;
+	background: #38B6FF;
+	border-bottom: solid 5px #FFDE59;
+	color: #ffffff;
+	padding: 10px 0;
+	align-items: center;
+	font-family: Lufga;
+}
+
+.head {
+	background: #fff;
+	width: 100%;
+	height: 10%;
+}
+
+.header-image {
+	padding-left: 30px;
+	width: 10%;
+	height: auto;
+}
+
+.header-button {
+	text-decoration: none; 
+	background: #FFDE59;
+	border: solid 2px #002557;
+	border-radius: 10px;
+	text-align: center;
+	margin: 10px;
+	font-family: Arial, sans-serif;
+	font-weight: bold;
+	font-size: 20px;
+	height: 50%;
+	width: 15%;
+	font-family: Lufga;
+}
+
+.active-button {
+	color: #fff;
+	text-decoration: none;
+	background: #FFFFFF;	
+	border: solid 2px #002557;
+	border-radius: 10px;
+	text-align: center;
+	margin: 10px;
+	font-family: Arial, sans-serif;
+	font-weight: bold;
+	font-size: 20px;
+	height: 50%;
+	width: 20%;
+	font-family: Lufga;
+}
+
+.header-button:active { 
+	background: #F2F2F2;
+}
+
+.header-logout {
+    color: black; 
+	font-family: Arial, sans-serif;
+    transition: color 0.3s;
+}
+
+.header-logout:hover {
+    color: gray; 
+}
+
+tr:nth-child(even) {
+	background-color: #f2f2f2;
+	height: 40px;
+}
+
+tr:nth-child(odd) {
+	background-color: #ffffff;
+	height: 40px;
+}
+
+table {
+	margin-top: 10px;
+	width: 50%;
+}
+
+.receipt {
+	width: 90%;
+}
+
+table, th, td {
+	border-collapse: collapse;
+	border: 0px solid;
+	border-bottom: 1px solid #ddd;
+	padding: 5px;
+}
+
+.prodname {
+	font-family: Lufga;
+	font-weight: bold;
+	padding-top: 0px;
+	text-align: center;
+}
+
+th {
+	background-color: #223399;
+	border-bottom: 2px solid #DDAA22; 
+	height: 50px;
+	color: #FFDE59;
+	font-size: 30px;
+	text-align: left;
+	padding-left: 10px;
+	font-family: Lufga;
+}
+
+.complete {
+	border-left: 5px solid #33ff99;
+}
+
+.cancelled {
+	border-left: 5px solid #ff3399;
+}
+
+.pending {
+	border-left: 5px solid #3399ff;
+}
+
+.total-button {
+	left: 46%;
+    width: auto;
+    padding: 6px;
+    background: #3663bf;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    border: 2px solid black;
+    border-radius: 50px;
+    cursor: pointer;
+	font-family: Lufga;
+	font-weight: bold;
+}
+
+.checkout-button {
+	left: 46%;
+    width: auto;
+    padding: 6px;
+    background: #00bf63;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    border: 2px solid black;
+    border-radius: 50px;
+    cursor: pointer;
+	font-family: Lufga;
+	font-weight: bold;
+}
+
+.clear-button {
+	left: 46%;
+    width: auto;
+    padding: 6px;
+    background: #bf3636;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    border: 2px solid black;
+    border-radius: 50px;
+    cursor: pointer;
+	margin-bottom: 10px;
+	font-family: Lufga;
+	font-weight: bold;
+}
+
+.home-button {
+	left: 46%;
+    width: auto;
+    padding: 6px;
+    background: #CFC636;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    border: 2px solid black;
+    border-radius: 50px;
+    cursor: pointer;
+	margin-bottom: 10px;
+	font-family: Lufga;
+	font-weight: bold;
+}
+
+.fixed-add-tile {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 250px;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.fixed-add-tile:hover {
+  transform: scale(1.05);
+}
+
+.plus {
+	background: #f0f0f0;
+	border-radius: 25px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  margin-bottom: 100px; /* Add space for fixed tile */
+}
+
+.grid-item {
+  background: none;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s;
+  position: relative;
+}
+
+.grid-square {
+  background: #fff;
+  border-top: 10px solid #38B6FF;
+  border-left: 10px solid #38B6FF;
+  border-bottom: 10px solid #FFDE59;
+  border-right: 10px solid #FFDE59;
+  height: 33%;
+}
+
+.add-product-tile {
+  background: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-controls {
+	float: right;
+}
+
+.add-product-tile img {
+  opacity: 0.7;
+}
+
+.edit-btn,
+.remove-btn {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  padding: 5px 10px;
+  margin: 2px;
+  cursor: pointer;
+  font-size: 12px;
+  font-family: Lufga;
+}
+
+.edit-btn:hover {
+  background: #4caf50;
+  color: white;
+}
+
+.remove-btn:hover {
+  background: #f44336;
+  color: white;
+}
+
+.grid-item:hover {
+  transform: scale(1.05);
+}
+
+.grid-item img {
+  width: 100%;
+  height: auto;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 15% auto;
+  padding: 20px;
+  border-top: 10px solid #38B6FF;
+  border-left: 10px solid #38B6FF;
+  border-bottom: 10px solid #FFDE59;
+  border-right: 10px solid #FFDE59;
+  width: 80%;
+  max-width: 500px;
+  border-radius: 5px;
+}
+
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.modal-content label {
+  font-weight: bold;
+}
+
+.modal-content input,
+.modal-content textarea {
+    width: 95%;
+    padding: 7px;
+    border: 2px solid black;
+    border-radius: 50px;
+	vertical-align: center;
+}
+
+.modal-content button[type="submit"] {
+  background: #4caf50;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.modal-content button[type="submit"]:hover {
+  background: #45a049;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+header {
+  position: relative;
+  text-align: center;
+  
+}
+
+h1 {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #000000;
+}
+
+.cart-container {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Admin Page Styles */
+#add-product-btn {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 20px;
+}
+
+#add-product-btn:hover {
+  background-color: #45a049;
+}
+
+.product-tile {
+  position: relative;
+  padding: 15px;
+  background: #f9f9f9;
+}
+
+.edit-btn,
+.remove-btn {
+  background-color: #008cba;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  margin: 2px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.remove-btn {
+  background-color: #f44336;
+}
+
+.edit-btn:hover {
+  background-color: #007b9e;
+}
+
+.remove-btn:hover {
+  background-color: #da190b;
+}
+
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.update {
+    width: auto;
+    padding: 6px;
+    background: #00bf63;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    border: 2px solid black;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+.cancel {
+    width: auto;
+    padding: 6px;
+    background: #bf3636;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    border: 2px solid black;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+.complete {
+	background: #33ff99;
+}
+
+.cancelled {
+	background: #ff3399;
+}
+
+.modal-content input,
+.modal-content textarea {
+	width: 95%;
+    padding: 7px;
+    border: 2px solid black;
+    border-radius: 50px;
+	vertical-align: center;
+}
+
+input[type="text"] {
+    width: 95%;
+    padding: 7px;
+    border: 2px solid black;
+    border-radius: 50px;
+	vertical-align: center;
+}
+
+.modal-content button[type="submit"] {
+  background-color: #4caf50;
+  width: 98%;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.modal-content button[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+.order-content {
+  background-color: #fff;
+  margin: 15% auto;
+  padding: 20px;
+  border-top: 10px solid #38B6FF;
+  border-left: 10px solid #38B6FF;
+  border-bottom: 10px solid #FFDE59;
+  border-right: 10px solid #FFDE59;
+  width: 80%;
+  max-width: 500px;
+  border-radius: 5px;
+}
+
+#btnneg {
+	width: 20px;
+	border: 1px solid #fff;
+	background: #bf3636;
+	color: #fff;
+	border-radius: 5px;
+}
+
+#btnpos {
+	width: 20px;
+	border: 1px solid #fff;
+	background: #00bf63;
+	color: #fff;
+	border-radius: 5px;
+}
+
+/* Initially hide the content */
+.content-to-toggle {
+  display: none;
+}
+
+/* Show the content when the checkbox is checked */
+#myCheckbox:checked ~ .content-to-toggle {
+  display: inline-block; /* or flex, grid, etc., depending on your layout */
+}
+
+.orderdisp {
+	font-size: 25px;
+}

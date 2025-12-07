@@ -1,0 +1,149 @@
+@font-face {
+	font-family: Suncream;
+	src: url(modals/Suncream.otf);
+}
+
+@font-face {
+	font-family: Lufga;
+	src: url(modals/lufga/LufgaRegular.ttf);
+}
+
+@font-face {
+	font-family: Lufga;
+	src: url(modals/lufga/LufgaBold.ttf);
+	font-weight: bold;
+}
+
+body {
+	font-family: Lufga;
+    background-image: url('me.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 98vh;
+}
+
+.center {
+    text-align: center;
+}
+
+.container {
+    text-align: center;
+}
+
+img {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%); 
+}
+
+.box {
+    width: 28%;  
+    height: 60%; 
+    background-color: white;
+	border-top: 10px solid #38B6FF;
+	border-left: 10px solid #38B6FF;
+	border-bottom: 10px solid #FFDE59;
+	border-right: 10px solid #FFDE59;
+    border-radius: 10px; 
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -30%); 
+}
+
+.box p:first-child {
+    font-size: 20px;
+    color: bold; 
+    margin: 1%;
+    margin-left: 11%;
+    margin-top: 6%;
+}
+
+input {
+    width: 80%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 2px solid black;
+    border-radius: 50px;
+    margin-left: 7%;
+}
+
+select {
+    width: 84.5%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 2px solid black;
+    border-radius: 50px;
+    font-size: 14px;
+    display: block;
+    margin-left: 7%;
+    margin-right: auto;
+    margin-bottom: 20%;
+}
+
+select {
+    background-color: white;
+    cursor: pointer;
+}
+
+select:focus {
+    border-color: black;
+    
+}
+
+button {
+    width: 40%;
+    padding: 10px;
+    background: #00bf63;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    border: 2px solid black;
+    border-radius: 50px;
+    cursor: pointer;
+    margin-top: 5px;
+    margin-left: 30%;
+}
+
+button:hover {
+    background: #218838;
+}
+
+.clear-button {
+    background: #bf3636;
+}
+
+.clear-button:hover {
+	background: #9d2929;
+}
+
+.center {
+    text-align: center;
+}
+
+.container {
+    text-align: center;
+}
+
+.started {
+    width: 90%;
+    padding: 10px;
+    background: #00bf63;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    border: 2px solid black;
+    border-radius: 50px;
+    cursor: pointer;
+    margin-top: 5px;
+}
+ 
+.started:hover {
+    background: #218838;
+}
+}

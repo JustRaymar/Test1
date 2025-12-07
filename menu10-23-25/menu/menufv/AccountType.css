@@ -1,0 +1,84 @@
+.body {
+    background-image: url('me.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 98vh;
+}
+
+.center {
+    text-align: center;
+}
+
+.container {
+    text-align: center;
+}
+
+img {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%); 
+}
+
+.box {
+    width: 28%;  
+    height: 50%; 
+    background-color: white; 
+    border-radius: 10px; 
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -30%); 
+}
+
+.box p:first-child {
+    font-size: 30px; 
+    color: bold; 
+    margin: 10; 
+    margin-left: 5%;
+    
+}
+
+.box p:nth-of-type(2) {
+    font-size: 18px;
+    color: bold; 
+    margin: 5%;
+    margin-left: 5%;
+    margin-top: -6%;
+    
+}
+
+.box button:nth-of-type(1) {
+    padding: 8px 80px;
+    border: 2px solid black; 
+    border-radius: 15px; 
+    background-color: white; 
+    color: black;
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-left: 9%;
+    margin-bottom: 10px;
+}
+
+.box button:nth-of-type(2) {
+    padding: 8px 80px;
+    border: 2px solid black; 
+    border-radius: 15px; 
+    background-color: white; 
+    color: black;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-left: 28%;
+
+}
+
+.box button:hover {
+    background-color: lightgray;
+}

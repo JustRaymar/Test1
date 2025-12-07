@@ -1,0 +1,72 @@
+.body {
+    background-image: url('me.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 98vh;
+}
+
+.center {
+    text-align: center;
+}
+
+.container {
+    text-align: center;
+}
+
+img {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%); 
+}
+
+.box {
+    width: 28%;  
+    height: 60%; 
+    background-color: white; 
+    border-radius: 10px; 
+    position: absolute;
+    top: 51%;
+    left: 50%;
+    transform: translate(-50%, -30%); 
+}
+
+.box p:first-child {
+    font-size: 20px;
+    color: bold; 
+    margin: 1%;
+    margin-left: 23%;
+    margin-top: 6%;
+}
+
+input[type="name"], input[type="mName"], input[type="bPermit"], input[type="tNo"], input[type="email"], input[type="password"], input[type="password"]  {
+    width: 80%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 2px solid black;
+    border-radius: 50px;
+    margin-left: 7%;
+}
+
+button {
+    width: 40%;
+    padding: 10px;
+    background: #00bf63;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    border: 2px solid black;
+    border-radius: 50px;
+    cursor: pointer;
+    margin-top: 5px;
+    margin-left: 30%;
+}
+ 
+button:hover {
+    background: #218838;
+}
