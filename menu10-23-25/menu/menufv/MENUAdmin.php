@@ -1,4 +1,4 @@
-<!DOCTYPE html>	
+<!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
@@ -23,8 +23,8 @@
 	<header>
 		<img src="MenuLOGO.png" alt="Header Image" class="header-image" />
 		<a href="MENUAdmin.php" class="active-button"><p class="header-logout">MANAGE USERS</p></a>
-		<a href="MENUAdminMenu.php" class="header-button"><p class="header-logout">MANAGE MENU</p></a>
 		<a href="MENUAdminTransactions.php" class="header-button"><p class="header-logout">TRANSACTION LOGS</p></a>
+		<a href="MENUAdminCredit.php" class="header-button"><p class="header-logout">LOAD CREDIT</p></a>
 		<a href="logout.php" class="header-button"><p class="header-logout">LOGOUT</p></a>
     </header>Admin
 	<center>
