@@ -33,7 +33,7 @@
 				<!-- CREDIT LOADING PANEL -->
 				<table border="1px">
 					<tr>
-						<th colspan="2">ADMIN CREDIT LOADING</th>
+						<th colspan="2">CREDIT LOADING</th>
 					</tr>
 
 					<tr>
@@ -87,11 +87,11 @@
 						<th colspan="5">CREDIT LOAD HISTORY</th>
 					</tr>
 					<tr>
-						<th>User</th>
-						<th>Previous Balance</th>
-						<th>Loaded Amount</th>
-						<th>New Balance</th>
-						<th>Date</th>
+						<th class="history">User</th>
+						<th class="history">Previous Balance</th>
+						<th class="history">Loaded Amount</th>
+						<th class="history">New Balance</th>
+						<th class="history">Date</th>
 					</tr>
 
 					<tr class="complete">

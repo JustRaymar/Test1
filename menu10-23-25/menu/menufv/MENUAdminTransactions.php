@@ -30,7 +30,7 @@
 	<center>
 		<table border="1px">
 			<tr>
-				<th colspan=3>TRANSACTION LOG</th>
+				<th colspan=4>TRANSACTION LOG</th>
 				<th><button class="clear-button">Close orders</button></th>
 			</tr>
 			<?php
@@ -92,6 +92,9 @@
 									echo"<td>Order is ".$row['Status']."...</td>";
 								}
 							}
+							echo"
+							<td><button class='total-button' onclick='openModal()'>View Order</button></td>
+							";
 						echo"
 						</tr>";
 					}
@@ -120,7 +123,94 @@
 				echo $pagLink;  
 			?>
 		</div>
+	
+		<div id="orderModal" class="modal">
+			<span class="close-modal">&times;</span>
+				<div class="order-content">
+					<h2>Viewing Order</h2>
+					<form id="edit-product-form">
+						<img style='height: 400px; width: 100%; object-fit: contain;' src='modals/Pancit Canton_r.png'>
+						<table class="receipt">
+							<tr>
+								<td>Order ID:<td>
+								<td>64</td>
+							</tr>
+							<tr>
+								<td>Username:<td>
+								<td>asdf</td>
+							</tr>
+							<tr>
+								<td>Product Name:<td>
+								<td>Pancit Canton</td>
+							</tr>
+							<tr>
+								<td>Quantity:<td>
+								<td>x2</td>
+							</tr>
+							<tr>
+								<td>Total Price:<td>
+								<td>₱60</td>
+							</tr>
+							<tr>
+								<td>Product Name:<td>
+								<td>Pancit Canton</td>
+							</tr>
+							<tr>
+								<td>eTransaction Reference Number:<td>
+								<td>
+									<input type="checkbox" id="myCheckbox" checked disabled>
+									<div class="content-to-toggle">
+									<input type="text" placeholder="Reference number" value="1234 1234 1234" readonly>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>Time Ordered:<td>
+								<td>2025-09-23 12:43:28</td>
+							</tr>
+							<tr>
+								<td>Time Completed:<td>
+								<td>2025-09-23 12:47:36</td>
+							</tr>
+							<tr>
+								<td>Status:<td>
+								<td>Completed</td>
+							</tr>
+							<tr>
+								<td>Priority Order:<td>
+								<td>False</td>
+							</tr>
+						</table><br/>
+						<p class='prodname'>Feedback</p>
+						<textarea class="review" readonly>The food was great!</textarea><br/>
+					</form>
+			</div>
+		</div>
+		<script>
+			// open modal
+			function openModal() {
+				document.getElementById("orderModal").style.display = "block";
+			}
+
+			// close modal
+			function closeModal() {
+				document.getElementById("orderModal").style.display = "none";
+			}
+
+			// close when clicking X
+			document.querySelector(".close-modal").onclick = closeModal;
+
+			// close when clicking outside modal
+			window.onclick = function(event) {
+				const modal = document.getElementById("orderModal");
+				if (event.target === modal) {
+					closeModal();
+				}
+			};
+		</script>
+	
 	</center>
+	
 	</main>
 	</body>
 </html>

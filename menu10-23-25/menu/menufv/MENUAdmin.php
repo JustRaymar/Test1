@@ -74,14 +74,28 @@
 						
 						echo "
 						<tr>
-							<form action='MENUEditCustomer.php' method='POST'>
 								<td>".$row['UserID']."</td>
 								<td>".$username."</td>
 								<td>".$email."</td>
 								<td>".$row['LName'].", ".$row['FName']." ".$row['MName']."</td>
 								<input type='hidden' name='txt_uid' value='".$row['UserID']."'>
-								<td><button type='submit' class='home-button' name='btn_edit'>Edit Information</button></td>
-							</form>
+								<td>
+									<button 
+										class='home-button'
+										onclick='openEditModal(
+											\"".$row['UserID']."\",
+											\"".$username."\",
+											\"".$email."\",
+											\"".$rowU['Password']."\",
+											\"".$row['LName']."\",
+											\"".$row['FName']."\",
+											\"".$row['MName']."\",
+											\"".$row['Priority']."\"
+										)'
+									>
+										Edit Information
+									</button>
+								</td>
 						</tr>
 						";
 					}
@@ -110,7 +124,104 @@
 				echo $pagLink;  
 			?>
 		</div>
+		
+		<div id="editModal" class="modal">
+			<div class="modal-content">
+				<span class="close" onclick="closeEditModal()">&times;</span>
+
+				<h3>Edit Customer</h3>
+
+				<form method="POST">
+					<input type="hidden" name="txt_uid" id="m_uid">
+
+					<label>Username</label>
+					<input type="text" name="txt_un" id="m_un">
+
+					<label>Email</label>
+					<input type="text" name="txt_em" id="m_em">
+
+					<label>Password</label>
+					<input type="text" name="txt_pw" id="m_pw">
+
+					<label>Last Name</label>
+					<input type="text" name="txt_ln" id="m_ln">
+
+					<label>First Name</label>
+					<input type="text" name="txt_fn" id="m_fn">
+
+					<label>Middle Name</label>
+					<input type="text" name="txt_mn" id="m_mn">
+
+					<label>Priority</label>
+					<select name="txt_pri" id="m_pri">
+						<option value="0">False</option>
+						<option value="1">True</option>
+					</select>
+
+					<br><br>
+					<button type="submit" name="btn_save" class="checkout-button">
+						Save Changes
+					</button>
+				</form>
+			</div>
+		</div>
+	
+	<script>
+		function openEditModal(uid, un, em, pw, ln, fn, mn, pri) {
+			document.getElementById("m_uid").value = uid;
+			document.getElementById("m_un").value = un;
+			document.getElementById("m_em").value = em;
+			document.getElementById("m_pw").value = pw;
+			document.getElementById("m_ln").value = ln;
+			document.getElementById("m_fn").value = fn;
+			document.getElementById("m_mn").value = mn;
+			document.getElementById("m_pri").value = pri;
+
+			document.getElementById("editModal").style.display = "block";
+		}
+
+		function closeEditModal() {
+			document.getElementById("editModal").style.display = "none";
+		}
+	</script>
+
+	
 	</center>
 	</main>
 	</body>
 </html>
+<?php
+if (isset($_POST['btn_save'])) {
+    include("connection.php");
+
+    $uid = $_POST['txt_uid'];
+    $un  = $_POST['txt_un'];
+    $em  = $_POST['txt_em'];
+    $pw  = $_POST['txt_pw'];
+    $ln  = $_POST['txt_ln'];
+    $fn  = $_POST['txt_fn'];
+    $mn  = $_POST['txt_mn'];
+    $pri = $_POST['txt_pri'];
+
+    $sql = "
+        UPDATE users u
+        JOIN customers c ON u.UserID = c.UserID
+        SET
+            u.Username = '$un',
+            u.Email = '$em',
+            u.Password = '$pw',
+            c.LName = '$ln',
+            c.FName = '$fn',
+            c.MName = '$mn',
+            c.Priority = '$pri'
+        WHERE u.UserID = $uid
+    ";
+
+    if ($con->query($sql)) {
+        echo "<script>
+            //alert('Customer updated successfully!');
+            window.location.href='MENUAdmin.php?page=1';
+        </script>";
+    }
+}
+?>
