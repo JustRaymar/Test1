@@ -5,6 +5,89 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Food Menu</title>
     <link rel="stylesheet" href="styles3.css" />
+    <style>
+      .main-layout {
+        display: flex;
+        flex-direction: row;
+        min-height: 80vh;
+      }
+      .store-sidebar {
+        width: 100px;
+        background-color: #f9f9f9;
+        padding: 20px 10px;
+        border-right: 2px solid #ddd;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        transition:
+          width 0.3s ease,
+          padding 0.3s ease;
+        overflow: hidden;
+        flex-shrink: 0;
+      }
+      .store-sidebar:hover {
+        width: 380px;
+        padding: 20px;
+      }
+      .store-btn-vertical {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        background: #38b6ff;
+        border: 3px solid #002557;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-align: left;
+        font-family: Lufga, sans-serif;
+        font-weight: bold;
+        color: #002557;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+      .store-sidebar:hover .store-btn-vertical {
+        padding: 15px;
+      }
+      .store-btn-vertical span {
+        opacity: 0;
+        transition: opacity 0.2s ease;
+      }
+      .store-sidebar:hover .store-btn-vertical span {
+        opacity: 1;
+        transition-delay: 0.1s;
+      }
+      .store-btn-vertical:hover,
+      .store-btn-vertical.active {
+        background: #002557;
+        color: #ffde59;
+        border-color: #ffde59;
+        transform: translateX(5px);
+      }
+      .store-logo-placeholder {
+        width: 50px;
+        height: 50px;
+        background-color: #ccc;
+        border-radius: 50%;
+        margin-right: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 10px;
+        color: #555;
+        flex-shrink: 0;
+        border: 1px solid #000;
+      }
+      .content-area {
+        flex-grow: 1;
+        padding: 20px;
+      }
+      .food-banner {
+        width: 100%;
+        margin-bottom: 20px;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+    </style>
   </head>
 	<body>
 	<?php
@@ -25,59 +108,56 @@
 			<a href="logout.php" class="header-button"><p class="header-logout">LOGOUT</p></a>
 		<!--</div>-->
     </header>
-	
-	<center>
-        <section class="food-banner">
-          <div class="food-banner-overlay"></div>
-          <div class="food-banner-content">
-            <h2 class="banner-title">Craving Something Delicious?</h2>
-            <p class="banner-text">
-              Order from your favorite Bulldogs stall now!
-            </p>
+        <div class="main-layout">
+        <div class="store-sidebar">
+          <div
+            class="store-btn-vertical"
+            onclick="setStore(0)"
+            data-store="BULLDOGS CORNER"
+          >
+            <div class="store-logo-placeholder">LOGO</div>
+            <span>BULLDOGS CORNER</span>
           </div>
-        </section>
-
-        <div class="store-carousel">
-          <button class="carousel-btn prev-btn" onclick="slideStore(-1)">
-            &#10094;
-          </button>
-          <div class="store-track">
-            <div
-              class="store-slide"
-              data-store="BULLDOGS CORNER"
-              onclick="setStore(1)"
-            >
-              BULLDOGS CORNER
-            </div>
-            <div
-              class="store-slide"
-              data-store="BULLDOGS PUNCHBOWL"
-              onclick="setStore(2)"
-            >
-              BULLDOGS PUNCHBOWL
-            </div>
-            <div
-              class="store-slide"
-              data-store="BULLDOGS QUICKBITES"
-              onclick="setStore(3)"
-            >
-              BULLDOGS QUICKBITES
-            </div>
-            <div
-              class="store-slide"
-              data-store="HUNGRY BULLDOGS"
-              onclick="setStore(4)"
-            >
-              HUNGRY BULLDOGS
-            </div>
+          <div
+            class="store-btn-vertical"
+            onclick="setStore(1)"
+            data-store="BULLDOGS PUNCHBOWL"
+          >
+            <div class="store-logo-placeholder">LOGO</div>
+            <span>BULLDOGS PUNCHBOWL</span>
           </div>
-          <button class="carousel-btn next-btn" onclick="slideStore(1)">
-            &#10095;
-          </button>
+          <div
+            class="store-btn-vertical"
+            onclick="setStore(2)"
+            data-store="BULLDOGS QUICKBITES"
+          >
+            <div class="store-logo-placeholder">LOGO</div>
+            <span>BULLDOGS QUICKBITES</span>
+          </div>
+          <div
+            class="store-btn-vertical"
+            onclick="setStore(3)"
+            data-store="HUNGRY BULLDOGS"
+          >
+            <div class="store-logo-placeholder">LOGO</div>
+            <span>HUNGRY BULLDOGS</span>
+          </div>
         </div>
-      </center>
-      <div class="grid-container" id="product-grid">
-        <!-- Products will be loaded dynamically -->
+
+        <div class="content-area">
+          <section class="food-banner">
+            <div class="food-banner-overlay"></div>
+            <div class="food-banner-content">
+              <h2 class="banner-title">Craving Something Delicious?</h2>
+              <p class="banner-text">
+                Order from your favorite Bulldogs stall now!
+              </p>
+            </div>
+          </section>
+          <div class="grid-container" id="product-grid">
+            <!-- Products will be loaded dynamically -->
+          </div>
+        </div>
       </div>
     </main>
 
@@ -102,20 +182,26 @@
               <input type="hidden" name="product_price" id="modal-price" />
               <p id="modal-showAvail"></p>
               <label for="product_quantity">Quantity:</label><br />
-              <button type="button" id="btnneg" onclick="changeQuantity(-1)">
-                -
-              </button>
-              <input
-                type="number"
-                name="product_quantity"
-                id="modal-quantity"
-                value="1"
-                min="1"
-                style="width: 50%"
-              />
-              <button type="button" id="btnpos" onclick="changeQuantity(1)">
-                +</button
-              ><br /><br />
+			  <table>
+				<tr>
+					<td>
+					  <input
+						type="number"
+						name="product_quantity"
+						id="modal-quantity"
+						value="1"
+						min="1"
+						style="width: 50%"
+					  />
+					</td>
+					<td>
+					  <button type="button" id="btnpos" onclick="changeQuantity(1)">
+						+</button>
+					  <button type="button" id="btnneg" onclick="changeQuantity(-1)">
+						-</button>
+					</td>
+				</tr>
+			  </table><br /><br />
               <button
                 type="button"
                 class="checkout-button"
@@ -134,7 +220,6 @@
               </button>
             </form>
           </div>
-        </center>
       </div>
     </div>
 	
