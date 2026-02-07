@@ -577,3 +577,15 @@ th {
   border-radius: 50px;
   vertical-align: center;
 }
+
+.qty-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.qty-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
