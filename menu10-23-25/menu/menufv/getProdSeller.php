@@ -2,19 +2,19 @@
 	header('Content-Type: application/json');
 	include("connection.php");
 
-	if (!isset($_GET['seller_id'])) {
+	if (!isset($_GET['store_id'])) {
 		echo json_encode([]);
 		exit;
 	}
 
-	$sellerId = intval($_GET['seller_id']);
+	$storeId = intval($_GET['store_id']);
 
-	$sql = "SELECT ProductID, ProductName, ProductDesc, Price, Quantity
-			FROM products
-			WHERE Status = 'ACTIVE' AND SellerID = ?";
+	$sql = "SELECT product_id, product_name, description, unit_price, available_stock
+			FROM product
+			WHERE store_id = ?";
 
 	$stmt = $con->prepare($sql);
-	$stmt->bind_param("i", $sellerId);
+	$stmt->bind_param("i", $storeId);
 	$stmt->execute();
 	$result = $stmt->get_result();
 

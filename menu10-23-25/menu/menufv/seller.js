@@ -1,258 +1,175 @@
-console.log("script.js is loaded correctly");
+console.log("seller.js loaded");
 
-// Modal Functions
+let products = [];
+
+// =========================
+// MODAL CONTROLS
+// =========================
 function openAddProductModal() {
   document.getElementById("add-product-modal").style.display = "block";
 }
 
 function closeModal() {
-  document.querySelectorAll(".modal").forEach((modal) => {
+  document.querySelectorAll(".modal").forEach(modal => {
     modal.style.display = "none";
   });
 }
 
-/*document.getElementById("edit-product-form").addEventListener("submit", function (e) {
-    e.preventDefault();
-    const index = document.getElementById("edit-product-id").value;
-    const updatedProduct = {
-		amount: parseFloat(document.getElementById("edit-product-amount").value),
-		name: document.getElementById("edit-product-name").value,
-		price: parseFloat(document.getElementById("edit-product-price").value),
-		description: document.getElementById("edit-product-description").value,
-    };
-    editProduct(index, updatedProduct);
-    closeModal();
-  });*/
-
-// Close modal when clicking outside
 window.onclick = function (event) {
   if (event.target.classList.contains("modal")) {
     closeModal();
   }
 };
 
+// =========================
+// QUANTITY CONTROLS
+// =========================
 function changeQuantity(amount) {
   const input = document.getElementById("product-amount");
-  let currentValue = parseInt(input.value) || 1; // fallback to 1 if empty/NaN
-  currentValue += amount;
-
-  // Prevent going below 1
-  if (currentValue < 1) currentValue = 1;
-
-  input.value = currentValue;
+  let value = parseInt(input.value) || 1;
+  value = Math.max(1, value + amount);
+  input.value = value;
 }
 
 function changeEditQuantity(amount) {
   const input = document.getElementById("edit-product-amount");
-  let currentValue = parseInt(input.value) || 1; // fallback to 1 if empty/NaN
-  currentValue += amount;
-
-  // Prevent going below 1
-  if (currentValue < 1) currentValue = 1;
-
-  input.value = currentValue;
+  let value = parseInt(input.value) || 1;
+  value = Math.max(1, value + amount);
+  input.value = value;
 }
 
-document.getElementById("add-product-form").addEventListener("submit", function (event) {
-    event.preventDefault();
-
-    let productName = document.getElementById("product-name").value;
-    let productPrice = document.getElementById("product-price").value;
-    let productDescription = document.getElementById("product-description").value;
-	let productAmount = document.getElementById("product-amount").value;
-
-    let formData = new FormData();
-    formData.append("product_name", productName);
-    formData.append("product_price", productPrice);
-    formData.append("product_description", productDescription);
-	formData.append("product_amount", productAmount);
-
-    fetch("add_product.php", {
-        method: "POST",
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        alert(data.message);
-        if (data.status === "success") {
-            closeModal();
-            loadProducts(); // Refresh product list
-        }
-    })
-    .catch(error => console.error("Error:", error));
-});
-
-let products = [];
-
-// Function to Load Products Dynamically
+// =========================
+// LOAD PRODUCTS
+// =========================
 function loadProducts() {
-    fetch("getProducts.php")
-    .then(response => response.json())
+  const gridContainer = document.getElementById("product-grid");
+
+  if (!gridContainer) {
+    console.error("product-grid element not found");
+    return;
+  }
+
+  fetch("getProducts.php")
+    .then(res => res.json())
     .then(data => {
-        products = data; // Store products globally
+      products = data;
 
-        let gridContainer = document.getElementById("product-grid");
-        gridContainer.innerHTML = `
-            <div class='grid-item add-product-tile' onclick='openAddProductModal()'>
-				<div class='plus'>
-				<center>
-					<img src='plus.png' alt='Add Product' />
-					<h2>Add New Product</h2>
-				</center>
-				</div>
-            </div>`; // Reset grid
+      // Reset grid with Add Product tile
+      gridContainer.innerHTML = `
+        <div class="grid-item add-product-tile" onclick="openAddProductModal()">
+          <img src="plus.png" alt="Add Product">
+          <h2>Add New Product</h2>
+        </div>
+      `;
 
-        products.forEach((product, index) => {
-            let productHTML = `
-                <div class='grid-item' id="product-${product.ProductID}">
-					<img src='modals/${product.ProductName}.png' alt='${product.ProductName}'/>
-					<div class='grid-square'>
-						<div class="product-controls">
-							<button class="edit-btn" data-index="${index}">Edit</button>
-							<button class="remove-btn" data-index="${index}">Remove</button>
-						</div>
-						<h2>${product.ProductName}</h2>
-						<p>₱${parseFloat(product.Price).toFixed(2)}</p>
-						<p>Available amount: ${product.Quantity}</p>
-						<p>${product.ProductDesc}</p>
-					</div>
-                </div>`;
+      if (!Array.isArray(products) || products.length === 0) {
+        return;
+      }
 
-            gridContainer.innerHTML += productHTML;
+      products.forEach((product, index) => {
+		  console.log("Price value:", product.price, typeof product.price);
+        const productHTML = `
+          <div class="grid-item" id="product-${product.product_id}">
+            <img src="modals/${product.product_name}.png" alt="${product.product_name}">
+            <div class="grid-square">
+              <div class="product-controls">
+                <button class="edit-btn" data-index="${index}">Edit</button>
+                <button class="remove-btn" data-index="${index}">Remove</button>
+              </div>
+              <h2>${product.product_name}</h2>
+              <p>₱${Number(product.unit_price).toFixed(2)}</p>
+              <p>Available amount: ${product.available_stock}</p>
+              <p>${product.description}</p>
+            </div>
+          </div>
+        `;
+        gridContainer.innerHTML += productHTML;
+      });
+
+      // Attach buttons
+      document.querySelectorAll(".edit-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          openEditModal(btn.dataset.index);
         });
+      });
 
-        // Attach event listeners
-        document.querySelectorAll(".edit-btn").forEach(button => {
-            button.addEventListener("click", function () {
-                const index = this.getAttribute("data-index");
-                openEditModal(index);
-            });
+      document.querySelectorAll(".remove-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          removeProduct(btn.dataset.index);
         });
-
-        document.querySelectorAll(".remove-btn").forEach(button => {
-            button.addEventListener("click", function () {
-                const index = this.getAttribute("data-index");
-                removeProduct(index);
-            });
-        });
+      });
     })
-    .catch(error => console.error("Error loading products:", error));
+    .catch(err => {
+      console.error("Load products error:", err);
+    });
 }
 
-
-document.addEventListener("DOMContentLoaded", function () {
-    let productGrid = document.getElementById("product-grid");
-    
-    if (!productGrid) {
-        console.error("Error: Element with ID 'product-grid' not found.");
-        return;
-    }
-
-    fetch("getProducts.php")
-        .then(response => response.json())
-        .then(products => {
-            console.log("Fetched products:", products);
-
-            // Clear the grid and add "Add Product" tile first
-            productGrid.innerHTML = `
-                <div class='grid-item add-product-tile' onclick='openAddProductModal()'>
-                    <img src='plus.png' alt='Add Product' />
-                    <h2>Add New Product</h2>
-                </div>`;
-
-            if (products.length === 0) {
-                console.warn("No products found.");
-                return;
-            }
-
-            products.forEach(product => {
-                let productHTML = `
-                    <div class='grid-item'>
-                        <h2>${product.ProductName}</h2>
-                        <p>$${product.Price}</p>
-                        <p>${product.ProductDesc}</p>
-                    </div>`;
-                productGrid.innerHTML += productHTML;
-            });
-        })
-        .catch(error => console.error("Fetch error:", error));
-});
-
+// =========================
+// EDIT PRODUCT
+// =========================
 function openEditModal(index) {
-    if (!products || products.length === 0) {
-        console.error("Error: Products array is empty or undefined.");
-        return;
-    }
+  const product = products[index];
+  if (!product) return;
 
-    const product = products[index]; // Get product data
-    if (!product) {
-        console.error(`Error: No product found at index ${index}`);
-        return;
-    }
+  document.getElementById("edit-product-id").value = index;
+  document.getElementById("edit-product-name").value = product.product_name;
+  document.getElementById("edit-product-price").value = product.price;
+  document.getElementById("edit-product-amount").value = product.quantity;
+  document.getElementById("edit-product-description").value = product.description;
 
-    document.getElementById("edit-product-id").value = index;
-	document.getElementById("edit-product-amount").value = parseFloat(product.Quantity).toFixed(0);
-    document.getElementById("edit-product-name").value = product.ProductName;
-    document.getElementById("edit-product-price").value = parseFloat(product.Price).toFixed(2);
-    document.getElementById("edit-product-description").value = product.ProductDesc;
-    document.getElementById("edit-product-modal").style.display = "block";
+  document.getElementById("edit-product-modal").style.display = "block";
 }
 
-document.getElementById("edit-product-form").addEventListener("submit", function (e) {
-    e.preventDefault();
+document.getElementById("edit-product-form").addEventListener("submit", e => {
+  e.preventDefault();
 
-    const index = document.getElementById("edit-product-id").value;
-    const updatedProduct = {
-        product_id: products[index].ProductID, // Ensure we send the correct ProductID
-		amount: document.getElementById("edit-product-amount").value,
-        name: document.getElementById("edit-product-name").value,
-        price: parseFloat(document.getElementById("edit-product-price").value),
-        description: document.getElementById("edit-product-description").value
-    };
+  const index = document.getElementById("edit-product-id").value;
+  const product = products[index];
 
-    let formData = new FormData();
-    formData.append("product_id", updatedProduct.product_id);
-	formData.append("product_amount", updatedProduct.amount);
-    formData.append("product_name", updatedProduct.name);
-    formData.append("product_price", updatedProduct.price);
-    formData.append("product_description", updatedProduct.description);
+  const formData = new FormData();
+  formData.append("product_id", product.product_id);
+  formData.append("product_name", document.getElementById("edit-product-name").value);
+  formData.append("product_price", document.getElementById("edit-product-price").value);
+  formData.append("product_amount", document.getElementById("edit-product-amount").value);
+  formData.append("description", document.getElementById("edit-product-description").value);
 
-    fetch("edit_product.php", {
-        method: "POST",
-        body: formData
-    })
-    .then(response => response.json())
+  fetch("edit_product.php", {
+    method: "POST",
+    body: formData
+  })
+    .then(res => res.json())
     .then(data => {
-        alert(data.message);
-        if (data.status === "success") {
-            closeModal();
-            loadProducts(); // Refresh product list after update
-        }
-    })
-    .catch(error => console.error("Error updating product:", error));
+      alert(data.message);
+      if (data.status === "success") {
+        closeModal();
+        loadProducts();
+      }
+    });
 });
 
-
+// =========================
+// DELETE PRODUCT
+// =========================
 function removeProduct(index) {
-    if (!confirm("Are you sure you want to remove this product?")) {
-        return;
-    }
+  if (!confirm("Remove this product?")) return;
 
-    const product_id = products[index].ProductID; // Get Product ID from the products array
+  const formData = new FormData();
+  formData.append("product_id", products[index].product_id);
 
-    let formData = new FormData();
-    formData.append("product_id", product_id);
-
-    fetch("delete_product.php", {
-        method: "POST",
-        body: formData
-    })
-    .then(response => response.json())
+  fetch("delete_product.php", {
+    method: "POST",
+    body: formData
+  })
+    .then(res => res.json())
     .then(data => {
-        alert(data.message);
-        if (data.status === "success") {
-            loadProducts(); // Refresh product list after deletion
-        }
-    })
-    .catch(error => console.error("Error deleting product:", error));
+      alert(data.message);
+      if (data.status === "success") {
+        loadProducts();
+      }
+    });
 }
+
+// =========================
+// INIT
+// =========================
+document.addEventListener("DOMContentLoaded", loadProducts);

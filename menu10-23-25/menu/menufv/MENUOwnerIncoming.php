@@ -15,7 +15,7 @@
 			exit();
 		}
 		//echo '<script>alert("Successfully logged in as '.$_SESSION['user_id'].'!");</script>';
-		$sqlId = "SELECT * FROM sellers WHERE UserID = ".$_SESSION['user_id'];
+		$sqlId = "SELECT * FROM personnel WHERE user_id = ".$_SESSION['user_id'];
 		$resId = $con->query($sqlId);
 		$rowId = $resId->fetch_assoc();
 	?>
@@ -57,7 +57,7 @@
 							<td><img style='height: 200px; width: 100%; object-fit: contain;' src='modals/".$product."_r.png'><p class='prodname'>".strtoupper($product)."</p></td>
 							<td style='font-size: 30px;'>Order #".$row['OrderID']."<br/>
 								x".$row['Quantity']." ₱".$row['OrderPrice']."<br/>
-							<td><button class='checkout-button' onclick='openModal()'>Process Order</button></td>
+							<td><button class='checkout-button' onclick='openModal()'>Manage Order</button></td>
 						</tr>";					
 					}
 				}

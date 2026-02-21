@@ -44,24 +44,24 @@
 		if ($pw != $cpw) {
 			Print '<script>alert("Passwords do not match!")</script>';
 		} else {
-			$sql = "SELECT * FROM customers c, users u
-					WHERE c.FName = '".$fn."'
-					AND c.MName = '".$mn."'
-					AND c.LName = '".$ln."'
-					AND u.Email = '".$em."'";
+			$sql = "SELECT * FROM customer c, user u
+					WHERE c.fname = '".$fn."'
+					AND c.mname = '".$mn."'
+					AND c.lname = '".$ln."'
+					AND u.email = '".$em."'";
 						
 			$res = $con->query($sql);
 			if ($res->num_rows>0) {
 				Print '<script>alert("That name or email has already been used! Please log in instead.")</script>';
 			} else {
-				$sqlUserReg = "INSERT INTO users (Username, Email, Password, Type) VALUES ('".$fn."', '".$em."', '".$pw."', 'Customer')";
+				$sqlUserReg = "INSERT INTO user (email, password) VALUES ('".$em."', '".$pw."')";
 				if ($con->query($sqlUserReg) == TRUE) {
-					$sqlGet = "SELECT UserID FROM users WHERE Email = '".$em."'";
+					$sqlGet = "SELECT user_id FROM user WHERE email = '".$em."'";
 					$resGet = $con->query($sqlGet);
 					if ($resGet->num_rows>0) {
 						if ($row = $resGet->fetch_assoc()) {
-							$uid = $row['UserID'];
-							$sqlCustReg = "INSERT INTO customers (UserID, FName, MName, LName) VALUES (".$uid.", '".$fn."', '".$mn."', '".$ln."')";
+							$uid = $row['user_id'];
+							$sqlCustReg = "INSERT INTO customer (user_id, fname, mname, lname) VALUES (".$uid.", '".$fn."', '".$mn."', '".$ln."')";
 							if ($con->query($sqlCustReg) == TRUE) {
 								Print '<script>alert("Account created successfully!")</script>';
 								Print '<script>window.location.assign("MENULogin.php")</script>';

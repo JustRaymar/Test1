@@ -2,7 +2,7 @@
 	$server = "localhost";
 	$username = "root";
 	$password = "";
-	$database = "menufv_db";
+	$database = "menufv";
 
 	$con = new mysqli($server, $username, $password, $database);
 ?>

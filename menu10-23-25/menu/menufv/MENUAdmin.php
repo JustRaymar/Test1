@@ -15,7 +15,7 @@
 			exit();
 		}
 		//echo '<script>alert("Successfully logged in as '.$_SESSION['user_id'].'!");</script>';
-		$sqlId = "SELECT * FROM sellers WHERE UserID = ".$_SESSION['user_id'];
+		$sqlId = "SELECT * FROM personnel WHERE user_id = ".$_SESSION['user_id'];
 		$resId = $con->query($sqlId);
 		$rowId = $resId->fetch_assoc();
 	?>
