@@ -1,181 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>MENU Seller Incoming Orders</title>
-		<link rel="stylesheet" href="styles4.css" />
-	</head>
-	<body>
-	<?php
-		session_start();
-		include("connection.php");
-		if (!isset($_SESSION['user_id'])) {
-			header("Location: MENULogin.php");
-			exit();
-		}
-		//echo '<script>alert("Successfully logged in as '.$_SESSION['user_id'].'!");</script>';
-		$sqlId = "SELECT * FROM personnel WHERE user_id = ".$_SESSION['user_id'];
-		$resId = $con->query($sqlId);
-		$rowId = $resId->fetch_assoc();
-	?>
-    <main>
-	<header>
-		<img src="MenuLOGO.png" alt="Header Image" class="header-image" />
-		<a href="MENUSeller.php" class="header-button"><p class="header-logout">EDIT PRODUCTS</p></a>
-		<a href="MENUOrders.php" class="active-button"><p class="header-logout">INCOMING ORDERS</p></a>
-		<a href="MENUCompletedOrders.php" class="header-button"><p class="header-logout">RECENT ORDERS</p></a>
-		<a href="logout.php" class="header-button"><p class="header-logout">LOGOUT</p></a>
-    </header>
-	<center>
-		<table border="1px">
-			<tr>
-				<th colspan=4>INCOMING ORDERS</th>
-			</tr>
-			<?php
-				include("connection.php");
-				
-				$sql = "SELECT * FROM orders WHERE Status = 'Pending' ORDER BY Priority DESC, OrderID LIMIT 10";
-				$res = $con->query($sql);
-				if ($res->num_rows>0) {
-					while ($row=$res->fetch_assoc()) {
-						$sqlC = "SELECT FName FROM customers WHERE UserID = ".$row['UserID'];
-						$resC = $con->query($sqlC);
-						$rowC = $resC->fetch_assoc();
-						$customer = $rowC['FName'];
-						
-						$sqlP = "SELECT ProductName FROM products WHERE ProductID = ".$row['ProductID'];
-						$resP = $con->query($sqlP);
-						$rowP = $resP->fetch_assoc();
-						$product = $rowP['ProductName'];	
-				
-						echo "
-						<tr class='pending'>
-							<td><img style='height: 200px; width: 100%; object-fit: contain;' src='modals/".$product."_r.png'><p class='prodname'>".strtoupper($product)."</p></td>
-							<td class='orderdisp'>
-								Order #".$row['OrderID']." <br/>
-								x".$row['Quantity']." ₱".$row['OrderPrice']."<br/>
-							</td>
-							<td><button onclick='openModal()' class='checkout-button'>Manage Order</button></td>
-						</tr>";
-						
-					}
-				}
-			?>
-		</table>
-		
-		<div id="orderModal" class="modal">
-			<div class="modal-content">
-				<span class="close-modal">&times;</span>
-				<h2>Processing Order...</h2>
-				<form id="edit-product-form">
-					<img style='height: 400px; width: 100%; object-fit: contain;' src='modals/Pancit Canton_r.png'>
-					<table class="receipt">
-						<tr><td>Order ID:</td><td>64</td></tr>
-						<tr><td>Username:</td><td>asdf</td></tr>
-						<tr><td>Product Name:</td><td>Pancit Canton</td></tr>
-						<tr><td>Quantity:</td><td>x2</td></tr>
-						<tr><td>Total Price:</td><td>₱60</td></tr>
-						<tr>
-							<td>Non-cash payment</td>
-							<td>
-								<input type="checkbox" id="myCheckbox">
-								<div class="content-to-toggle">
-									<input type="text" placeholder="Reference number">
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td><button type="button" class="clear-button">Cancel the order</button></td>
-							<td><button type="button" class="checkout-button">Submit the order</button></td>
-						</tr>
-					</table>
-				</form>
-			</div>
-		</div>
-		
-		<script>
-			// open modal
-			function openModal() {
-				document.getElementById("orderModal").style.display = "block";
-			}
+<head>
+  <meta charset="UTF-8">
+  <title>MENU Seller - Incoming Orders</title>
+  <link rel="stylesheet" href="styles4.css">
+</head>
+<body>
 
-			// close modal
-			function closeModal() {
-				document.getElementById("orderModal").style.display = "none";
-			}
-
-			// close when clicking X
-			document.querySelector(".close-modal").onclick = closeModal;
-
-			// close when clicking outside modal
-			window.onclick = function(event) {
-				const modal = document.getElementById("orderModal");
-				if (event.target === modal) {
-					closeModal();
-				}
-			};
-		</script>
-	</center>
-	</main>
-	</body>
-</html>
 <?php
-	include("connection.php");
-	
-	if(isset($_POST['btn_updateOrd'])) {
-		$oid = $_POST['txt_oid'];
-		$sql = "UPDATE orders SET Status = 'Completed', OrderCompleted = '".date('Y-m-d h:i:sa')."' WHERE OrderID =".$oid;
-		$res = $con->query($sql);
-		if ($con->query($sql) == TRUE) {
-			echo "<script>
-			alert('Order ".$oid." was completed successfully!');
-			window.location.href='MENUOrders.php';
-			</script>";
-		} else {
-			echo "<script>
-			alert('Order completion error!');
-			window.location.href='MENUOrders.php';
-			</script>";
-		}
-	}
-	
-	if(isset($_POST['btn_cancelOrd'])) {
-		$oid = $_POST['txt_oid'];
-		$sqlX = "UPDATE orders SET Status = 'Cancelled', OrderCompleted = '".date('Y-m-d h:i:sa')."' WHERE OrderID =".$oid;
-		$resX = $con->query($sqlX);
-		if ($con->query($sqlX) == TRUE) {
-			$sqlA = "SELECT Quantity, ProductID FROM orders WHERE OrderID =".$oid;
-			$resA = $con->query($sqlA);
-			$rowA = $resA->fetch_assoc();
-			$quantityA = $rowA['Quantity'];
-			$prodId = $rowA['ProductID'];
-			
-			$sqlB = "SELECT Quantity FROM products WHERE ProductID =".$prodId;
-			$resB = $con->query($sqlB);
-			$rowB = $resB->fetch_assoc();
-			$quantityB = $rowB['Quantity'];
-			
-			$finalAmount = $quantityA + $quantityB;
-			
-			$sqlU = "UPDATE products SET Quantity = ".$finalAmount." WHERE ProductID =".$prodId;
-			$resU = $con->query($sqlU);
-			if ($con->query($sqlU) == TRUE) {
-				echo "<script>
-				alert('Order ".$oid." was cancelled successfully');
-				window.location.href='MENUOrders.php';
-				</script>";
-			} else {
-				echo "<script>
-				alert('Order cancellation error!');
-				window.location.href='MENUOrders.php';
-				</script>";
-			}
-		} else {
-			echo "<script>
-			alert('Order cancellation error!');
-			window.location.href='MENUOrders.php';
-			</script>";
-		}
-	}
+session_start();
+include("connection.php");
+
+if (!isset($_SESSION['user_id'])) {
+  header("Location: MENULogin.php");
+  exit();
+}
+
+$seller_id = $_SESSION['user_id'];
+
+/* ============================
+   COMPLETE ORDER
+============================ */
+if (isset($_POST['complete_order'])) {
+  $cart_id = (int)$_POST['cart_id'];
+
+  $con->begin_transaction();
+
+  try {
+    // Get cart + customer + credit
+    $q = "
+      SELECT c.cart_id, c.total_price,
+             cust.customer_id,
+             cr.credit_id, cr.credit_amount, cr.active
+      FROM cart c
+      JOIN customer cust ON c.customer_id = cust.customer_id
+      JOIN credit cr ON cust.customer_id = cr.customer_id
+      WHERE c.cart_id = $cart_id
+        AND c.status = 'Pending'
+        AND cr.active = 1
+      FOR UPDATE
+    ";
+    $res = $con->query($q);
+    if ($res->num_rows === 0) {
+      throw new Exception("Invalid cart or inactive credit.");
+    }
+
+    $row = $res->fetch_assoc();
+
+    if ($row['credit_amount'] < $row['total_price']) {
+      throw new Exception("Insufficient credit.");
+    }
+
+    // Deduct credit
+    $newBalance = $row['credit_amount'] - $row['total_price'];
+    $con->query("
+      UPDATE credit
+      SET credit_amount = $newBalance
+      WHERE credit_id = {$row['credit_id']}
+    ");
+
+    // Insert order_details
+    $con->query("
+      INSERT INTO order_details
+        (cart_id, ordered_on, price, status)
+      VALUES
+        ($cart_id, NOW(), {$row['total_price']}, 'Completed')
+    ");
+
+    // Update cart status
+    $con->query("
+      UPDATE cart
+      SET status = 'Completed'
+      WHERE cart_id = $cart_id
+    ");
+
+    $con->commit();
+
+    echo "<script>alert('Order completed successfully');location.href='MENUOrders.php';</script>";
+    exit();
+
+  } catch (Exception $e) {
+    $con->rollback();
+    echo "<script>alert('{$e->getMessage()}');</script>";
+  }
+}
 ?>
+
+<header>
+	<img src="MenuLOGO.png" alt="Header Image" class="header-image" />
+	<a href="MENUSeller.php" class="header-button"><p class="header-logout">EDIT PRODUCTS</p></a>
+	<a href="MENUOrders.php" class="active-button"><p class="header-logout">INCOMING ORDERS</p></a>
+	<a href="MENUCompletedOrders.php" class="header-button"><p class="header-logout">RECENT ORDERS</p></a>
+	<a href="logout.php" class="header-button"><p class="header-logout">LOGOUT</p></a>
+</header>
+
+<center>
+
+<table border="1">
+<tr><th colspan="4">INCOMING ORDERS</th></tr>
+
+<?php
+$sql = "
+SELECT
+  c.cart_id,
+  c.total_price,
+  cust.fname,
+  cust.lname,
+  cust.priority_type,
+  CASE
+    WHEN cust.priority_type = 'PWD' THEN 3
+    WHEN cust.priority_type = 'Faculty' THEN 2
+    ELSE 1
+  END AS priority
+FROM cart c
+JOIN customer cust ON c.customer_id = cust.customer_id
+WHERE c.status = 'Pending'
+ORDER BY priority DESC, c.cart_id ASC
+LIMIT 10
+";
+
+$res = $con->query($sql);
+
+while ($row = $res->fetch_assoc()) {
+
+  echo "
+  <tr class='pending'>
+    <td>
+      <b>Cart #{$row['cart_id']}</b><br>
+      {$row['lname']}, {$row['fname']}<br>
+      Priority: {$row['priority_type']}
+    </td>
+
+    <td>
+      Total: ₱".number_format($row['total_price'],2)."
+    </td>
+
+    <td>
+      <form method='POST'>
+        <input type='hidden' name='cart_id' value='{$row['cart_id']}'>
+        <button name='complete_order' class='checkout-button'>
+          Complete Order
+        </button>
+      </form>
+    </td>
+  </tr>";
+}
+?>
+
+</table>
+
+</center>
+</body>
+</html>
