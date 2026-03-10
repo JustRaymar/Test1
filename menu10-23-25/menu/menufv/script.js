@@ -160,6 +160,20 @@ function calculateTotalPrice() {
   return total;
 }
 
+function updateTotals() {
+  const totalPrice = calculateTotalPrice();
+
+  const totalDisplay = document.getElementById("total-price");
+  if (totalDisplay) {
+    totalDisplay.innerText = `₱${totalPrice}`;
+  }
+
+  const totalCounter = document.getElementById("cart-total-counter");
+  if (totalCounter) {
+    totalCounter.innerText = `₱${totalPrice}`;
+  }
+}
+
 function displayTotalPrice() {
   const totalDisplay = document.getElementById("total-price");
   if (!totalDisplay) return;
@@ -263,4 +277,5 @@ function renderCart() {
 
   displayTotalPrice();
 }
+
 
