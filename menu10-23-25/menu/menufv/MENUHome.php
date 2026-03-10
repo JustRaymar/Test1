@@ -226,6 +226,10 @@
     </div>
 	
     <script src="script.js"></script>
+	<a href="MENUCart.php" id="cart-total-counter-container" style="text-decoration: none;">
+        <span>Cart Total: </span>
+        <span id="cart-total-counter">₱0.00</span>
+    </a>
   </body>
 </html>
 
@@ -242,4 +246,5 @@
 			echo "<script>alert('No Product ID received.');</script>";
 		}
 	}
+
 ?>
